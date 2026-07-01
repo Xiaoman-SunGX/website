@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>孙冠雄 - AI视频设计师个人网站</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#6366f1',
+                        secondary: '#8b5cf6',
+                        accent: '#ec4899',
+                        dark: '#0f172a',
+                        light: '#f8fafc'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'PingFang SC', 'Microsoft YaHei', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            scroll-behavior: smooth;
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6, #ec4899);
+        }
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(99, 102, 241, 0.15);
+        }
+        .section-fade {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        .section-fade.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .nav-active {
+            color: #6366f1;
+            font-weight: 600;
+        }
+        #hero-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body class="bg-light text-dark">
+
+    <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md shadow-sm transition-all duration-300">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <span class="text-xl font-bold gradient-text">孙冠雄</span>
+                    <span class="hidden sm:inline text-sm text-gray-500 ml-2">AI视频设计师</span>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#hero" class="nav-link text-gray-600 hover:text-primary transition-colors">首页</a>
+                    <a href="#work-experience" class="nav-link text-gray-600 hover:text-primary transition-colors">工作经历</a>
+                    <a href="#projects" class="nav-link text-gray-600 hover:text-primary transition-colors">项目经验</a>
+                    <a href="#skills" class="nav-link text-gray-600 hover:text-primary transition-colors">专业技能</a>
+                    <a href="#contact" class="nav-link text-gray-600 hover:text-primary transition-colors">联系方式</a>
+                </div>
+                <button id="menu-btn" class="md:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors" aria-label="Toggle menu" aria-expanded="false">
+                    <i class="fas fa-bars text-gray-600"></i>
+                </button>
+            </div>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100">
+            <div class="px-4 py-4 space-y-3">
+                <a href="#hero" class="nav-link block py-2 text-gray-600 hover:text-primary transition-colors">首页</a>
+                <a href="#work-experience" class="nav-link block py-2 text-gray-600 hover:text-primary transition-colors">工作经历</a>
+                <a href="#projects" class="nav-link block py-2 text-gray-600 hover:text-primary transition-colors">项目经验</a>
+                <a href="#skills" class="nav-link block py-2 text-gray-600 hover:text-primary transition-colors">专业技能</a>
+                <a href="#contact" class="nav-link block py-2 text-gray-600 hover:text-primary transition-colors">联系方式</a>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <section id="hero" class="min-h-screen flex items-center pt-16 bg-gradient-to-br from-gray-50 via-white to-purple-50 relative overflow-hidden">
+            <canvas id="hero-canvas"></canvas>
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 hero-content">
+                <div class="grid lg:grid-cols-2 gap-12 items-center">
+                    <div class="section-fade">
+                        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold text-dark mb-6">
+                            AI视频设计师<br>
+                            <span class="gradient-text">孙冠雄</span>
+                        </h1>
+                        <p class="text-lg text-gray-600 mb-8 leading-relaxed">
+                            7年广告行业经验，专注AI视频全栈创作，擅长将传统影视制作与前沿AIGC技术融合，独立完成从剧本策划到成片交付的全流程工作。
+                        </p>
+                        <div class="flex flex-wrap gap-3 mb-8">
+                            <span class="px-4 py-2 bg-indigo-100 text-indigo-700 rounded-full text-sm font-medium">AI视频创作</span>
+                            <span class="px-4 py-2 bg-purple-100 text-purple-700 rounded-full text-sm font-medium">剧本原创策划</span>
+                            <span class="px-4 py-2 bg-pink-100 text-pink-700 rounded-full text-sm font-medium">AIGC视觉落地</span>
+                            <span class="px-4 py-2 bg-blue-100 text-blue-700 rounded-full text-sm font-medium">视频统筹全案</span>
+                        </div>
+                        <div class="flex flex-col sm:flex-row gap-4">
+                            <a href="#contact" class="px-8 py-3 gradient-bg text-white rounded-lg font-medium hover:opacity-90 transition-opacity text-center">
+                                <i class="fas fa-envelope mr-2"></i>联系我
+                            </a>
+                            <a href="#projects" class="px-8 py-3 border-2 border-gray-300 text-gray-700 rounded-lg font-medium hover:border-primary hover:text-primary transition-colors text-center">
+                                <i class="fas fa-play mr-2"></i>查看作品
+                            </a>
+                        </div>
+                    </div>
+                    <div class="section-fade">
+                        <div class="relative">
+                            <div class="absolute inset-0 gradient-bg rounded-3xl opacity-20 blur-3xl"></div>
+                            <div class="relative bg-white rounded-3xl p-8 shadow-xl">
+                                <div class="grid grid-cols-2 gap-6">
+                                    <div class="bg-indigo-50 rounded-xl p-6 text-center">
+                                        <div class="text-3xl font-bold text-indigo-600 mb-2">7年</div>
+                                        <div class="text-sm text-gray-600">行业经验</div>
+                                    </div>
+                                    <div class="bg-purple-50 rounded-xl p-6 text-center">
+                                        <div class="text-3xl font-bold text-purple-600 mb-2">6个</div>
+                                        <div class="text-sm text-gray-600">AI视频项目</div>
+                                    </div>
+                                    <div class="bg-pink-50 rounded-xl p-6 text-center">
+                                        <div class="text-3xl font-bold text-pink-600 mb-2">100%</div>
+                                        <div class="text-sm text-gray-600">交付合格率</div>
+                                    </div>
+                                    <div class="bg-blue-50 rounded-xl p-6 text-center">
+                                        <div class="text-3xl font-bold text-blue-600 mb-2">4类</div>
+                                        <div class="text-sm text-gray-600">商业品类</div>
+                                    </div>
+                                </div>
+                                <div class="mt-8 p-6 bg-gray-50 rounded-xl">
+                                    <h3 class="font-semibold text-dark mb-4">求职意向</h3>
+                                    <ul class="space-y-2 text-sm text-gray-600">
+                                        <li class="flex items-center"><i class="fas fa-check text-primary mr-2"></i>AI视频设计师</li>
+                                        <li class="flex items-center"><i class="fas fa-check text-primary mr-2"></i>短视频AI创意设计师</li>
+                                        <li class="flex items-center"><i class="fas fa-check text-primary mr-2"></i>影视后期创意设计师</li>
+                                        <li class="flex items-center"><i class="fas fa-check text-primary mr-2"></i>品牌广告视频设计师</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="work-experience" class="py-20 bg-white">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16 section-fade">
+                    <h2 class="text-3xl sm:text-4xl font-bold text-dark mb-4">工作经历</h2>
+                    <p class="text-gray-600 max-w-2xl mx-auto">2018年毕业后深耕广告行业，从传统平面设计到AI视频全栈创作，完成系统化技能升级</p>
+                </div>
+
+                <div class="relative section-fade">
+                    <div class="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-gray-200 rounded-full hidden lg:block"></div>
+
+                    <div class="space-y-12">
+                        <div class="relative lg:flex items-center">
+                            <div class="lg:w-1/2 lg:pr-12">
+                                <div class="card-hover bg-gray-50 rounded-2xl p-8 border border-gray-100">
+                                    <div class="flex items-center justify-between mb-4">
+                                        <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-medium">2018.07 - 2021.06</span>
+                                    </div>
+                                    <h3 class="text-xl font-bold text-dark mb-2">XX广告有限公司</h3>
+                                    <p class="text-primary font-medium mb-4">视觉设计师/视频剪辑师</p>
+                                    <ul class="space-y-3 text-gray-600 text-sm">
+                                        <li class="flex items-start"><i class="fas fa-circle text-xs text-primary mt-2 mr-2"></i>负责品牌平面视觉物料设计、线下宣传海报、电商详情页、品牌画册制作</li>
+                                        <li class="flex items-start"><i class="fas fa-circle text-xs text-primary mt-2 mr-2"></i>承接企业宣传片、短视频广告的拍摄辅助、剪辑包装、调色优化工作</li>
+                                        <li class="flex items-start"><i class="fas fa-circle text-xs text-primary mt-2 mr-2"></i>对接客户需求，梳理设计与视频制作标准，配合团队完成项目落地交付</li>
+                                    </ul>
+                                    <div class="mt-6 pt-4 border-t border-gray-200">
+                                        <p class="text-sm font-medium text-dark mb-2">工作成果</p>
+                                        <p class="text-sm text-gray-600">累计完成百余套品牌视觉物料设计、数十条商业短视频剪辑交付，项目交付合格率100%</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="hidden lg:block absolute left-1/2 transform -translate-x-1/2 w-4 h-4 bg-primary rounded-full border-4 border-white"></div>
+                            <div class="lg:w-1/2 lg:pl-12 hidden lg:block"></div>
+                        </div>
+
+                        <div class="relative lg:flex items-center">
+                            <div class="lg:w-1/2 lg:pr-12 hidden lg:block"></div>
+                            <div class="hidden lg:block absolute left-1/2 transform -translate-x-1/2 w-4 h-4 bg-primary rounded-full border-4 border-white"></div>
+                            <div class="lg:w-1/2 lg:pl-12">
+                                <div class="card-hover bg-gradient-to-br from-indigo-50 to-purple-50 rounded-2xl p-8 border border-indigo-100">
+                                    <div class="flex items-center justify-between mb-4">
+                                        <span class="px-3 py-1 bg-primary text-white rounded-full text-xs font-medium">2021.07 - 至今</span>
+                                    </div>
+                                    <h3 class="text-xl font-bold text-dark mb-2">XX品牌营销广告公司</h3>
+                                    <p class="text-primary font-medium mb-4">创意视频设计师</p>
+                                    <ul class="space-y-3 text-gray-600 text-sm">
+                                        <li class="flex items-start"><i class="fas fa-circle text-xs text-primary mt-2 mr-2"></i>负责品牌TVC广告、创意剧情广告、商业短剧的前期策划、脚本打磨、分镜设计、后期全流程制作</li>
+                                        <li class="flex items-start"><i class="fas fa-circle text-xs text-primary mt-2 mr-2"></i>独立负责中小型视频项目统筹，对接甲方需求、把控项目进度、协调团队协作</li>
+                                        <li class="flex items-start"><i class="fas fa-circle text-xs text-primary mt-2 mr-2"></i>同步自学迭代AI设计与视频技术，将AIGC出图、AI运镜、AI渲染等技术融入传统视频制作</li>
+                                    </ul>
+                                    <div class="mt-6 pt-4 border-t border-indigo-200">
+                                        <p class="text-sm font-medium text-dark mb-2">工作成果</p>
+                                        <p class="text-sm text-gray-600">创新融合传统影视制作与AI创作技术，独立落地6个核心商业AI视频项目，覆盖真人短剧、动画短剧、品牌TVC、创意广告全品类</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects" class="py-20 bg-gradient-to-b from-gray-50 to-white">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16 section-fade">
+                    <h2 class="text-3xl sm:text-4xl font-bold text-dark mb-4">核心项目经验</h2>
+                    <p class="text-gray-600 max-w-2xl mx-auto">深耕AI商业视频创作，独立策划、制作、统筹6个核心商业项目，覆盖四大品类</p>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="card-hover bg-white rounded-2xl overflow-hidden shadow-lg section-fade">
+                        <div class="h-48 bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center">
+                            <i class="fas fa-film text-6xl text-white/50"></i>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <span class="px-3 py-1 bg-indigo-100 text-indigo-700 rounded-full text-xs font-medium">AI真人短剧</span>
+                                <span class="text-sm text-gray-400">2部</span>
+                            </div>
+                            <h3 class="text-xl font-bold text-dark mb-3">都市情感/职场励志AI真人短剧</h3>
+                            <p class="text-gray-600 text-sm mb-4 line-clamp-3">独立完成剧本原创撰写、分镜脚本设计、AIGC真人角色建模、场景搭建、AI镜头拍摄、画面渲染、后期剪辑、调色配乐、成片输出全流程</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">剧本原创</span>
+                                <span class="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">AI角色建模</span>
+                                <span class="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">AI镜头</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-hover bg-white rounded-2xl overflow-hidden shadow-lg section-fade">
+                        <div class="h-48 bg-gradient-to-br from-pink-500 to-orange-500 flex items-center justify-center">
+                            <i class="fas fa-wand-magic-sparkles text-6xl text-white/50"></i>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <span class="px-3 py-1 bg-pink-100 text-pink-700 rounded-full text-xs font-medium">AI动画短剧</span>
+                                <span class="text-sm text-gray-400">2部</span>
+                            </div>
+                            <h3 class="text-xl font-bold text-dark mb-3">创意治愈系/科普趣味AI动画短剧</h3>
+                            <p class="text-gray-600 text-sm mb-4 line-clamp-3">负责动画剧本策划、人设设定、场景原画AIGC出图、动画分镜设计、AI动态帧生成、动画画面联动、后期合成、字幕音效包装</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">动画剧本</span>
+                                <span class="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">AIGC出图</span>
+                                <span class="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">AI动画</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-hover bg-white rounded-2xl overflow-hidden shadow-lg section-fade">
+                        <div class="h-48 bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center">
+                            <i class="fas fa-tv text-6xl text-white/50"></i>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-medium">品牌TVC</span>
+                                <span class="text-sm text-gray-400">1个</span>
+                            </div>
+                            <h3 class="text-xl font-bold text-dark mb-3">品牌产品宣传TVC商业广告</h3>
+                            <p class="text-gray-600 text-sm mb-4 line-clamp-3">对接品牌甲方，梳理品牌核心卖点与传播需求，原创撰写TVC广告脚本、设计分镜方案；结合AIGC技术制作产品创意场景、视觉特效</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">品牌对接</span>
+                                <span class="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">脚本撰写</span>
+                                <span class="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">AIGC特效</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-hover bg-white rounded-2xl overflow-hidden shadow-lg section-fade">
+                        <div class="h-48 bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
+                            <i class="fas fa-ad text-6xl text-white/50"></i>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <span class="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-xs font-medium">创意剧情广告</span>
+                                <span class="text-sm text-gray-400">1个</span>
+                            </div>
+                            <h3 class="text-xl font-bold text-dark mb-3">沉浸式品牌创意剧情广告</h3>
+                            <p class="text-gray-600 text-sm mb-4 line-clamp-3">突破传统广告模式，原创创意剧情脚本，结合AI虚实结合技术，打造沉浸式广告画面；负责AIGC创意视觉出图、虚实场景合成</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">创意剧本</span>
+                                <span class="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">虚实合成</span>
+                                <span class="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">全平台传播</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="skills" class="py-20 bg-white">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16 section-fade">
+                    <h2 class="text-3xl sm:text-4xl font-bold text-dark mb-4">专业技能能力</h2>
+                    <p class="text-gray-600 max-w-2xl mx-auto">从传统设计到AI创作，掌握全流程视频制作技能</p>
+                </div>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="card-hover bg-gradient-to-br from-indigo-50 to-blue-50 rounded-2xl p-8 border border-indigo-100 section-fade">
+                        <div class="w-14 h-14 bg-indigo-100 rounded-xl flex items-center justify-center mb-6">
+                            <i class="fas fa-palette text-2xl text-indigo-600"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-dark mb-4">视觉设计能力</h3>
+                        <ul class="space-y-2 text-gray-600 text-sm">
+                            <li class="flex items-start"><i class="fas fa-check text-indigo-500 mr-2 mt-1"></i>熟练使用PS完成全品类平面设计</li>
+                            <li class="flex items-start"><i class="fas fa-check text-indigo-500 mr-2 mt-1"></i>专业商业视觉审美，色彩搭配</li>
+                            <li class="flex items-start"><i class="fas fa-check text-indigo-500 mr-2 mt-1"></i>独立完成品牌视觉物料全套制作</li>
+                        </ul>
+                    </div>
+
+                    <div class="card-hover bg-gradient-to-br from-purple-50 to-pink-50 rounded-2xl p-8 border border-purple-100 section-fade">
+                        <div class="w-14 h-14 bg-purple-100 rounded-xl flex items-center justify-center mb-6">
+                            <i class="fas fa-video text-2xl text-purple-600"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-dark mb-4">AI视频创作能力</h3>
+                        <ul class="space-y-2 text-gray-600 text-sm">
+                            <li class="flex items-start"><i class="fas fa-check text-purple-500 mr-2 mt-1"></i>精通主流AI视频工具与AIGC出图</li>
+                            <li class="flex items-start"><i class="fas fa-check text-purple-500 mr-2 mt-1"></i>AI真人视频生成、动画制作、镜头运镜</li>
+                            <li class="flex items-start"><i class="fas fa-check text-purple-500 mr-2 mt-1"></i>解决AI画面失真、动作僵硬等问题</li>
+                        </ul>
+                    </div>
+
+                    <div class="card-hover bg-gradient-to-br from-pink-50 to-orange-50 rounded-2xl p-8 border border-pink-100 section-fade">
+                        <div class="w-14 h-14 bg-pink-100 rounded-xl flex items-center justify-center mb-6">
+                            <i class="fas fa-film text-2xl text-pink-600"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-dark mb-4">视频全流程制作能力</h3>
+                        <ul class="space-y-2 text-gray-600 text-sm">
+                            <li class="flex items-start"><i class="fas fa-check text-pink-500 mr-2 mt-1"></i>短视频、短剧、TVC广告全流程制作</li>
+                            <li class="flex items-start"><i class="fas fa-check text-pink-500 mr-2 mt-1"></i>脚本策划、分镜设计、素材剪辑、调色</li>
+                            <li class="flex items-start"><i class="fas fa-check text-pink-500 mr-2 mt-1"></i>熟悉各类视频平台规则，适配新媒体传播</li>
+                        </ul>
+                    </div>
+
+                    <div class="card-hover bg-gradient-to-br from-blue-50 to-cyan-50 rounded-2xl p-8 border border-blue-100 section-fade">
+                        <div class="w-14 h-14 bg-blue-100 rounded-xl flex items-center justify-center mb-6">
+                            <i class="fas fa-pen-fancy text-2xl text-blue-600"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-dark mb-4">内容创作能力</h3>
+                        <ul class="space-y-2 text-gray-600 text-sm">
+                            <li class="flex items-start"><i class="fas fa-check text-blue-500 mr-2 mt-1"></i>扎实的剧本写作功底</li>
+                            <li class="flex items-start"><i class="fas fa-check text-blue-500 mr-2 mt-1"></i>现代短剧、动画短剧、品牌广告脚本</li>
+                            <li class="flex items-start"><i class="fas fa-check text-blue-500 mr-2 mt-1"></i>把控剧情节奏、人设塑造、品牌卖点植入</li>
+                        </ul>
+                    </div>
+
+                    <div class="card-hover bg-gradient-to-br from-green-50 to-teal-50 rounded-2xl p-8 border border-green-100 section-fade">
+                        <div class="w-14 h-14 bg-green-100 rounded-xl flex items-center justify-center mb-6">
+                            <i class="fas fa-users text-2xl text-green-600"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-dark mb-4">项目统筹协作能力</h3>
+                        <ul class="space-y-2 text-gray-600 text-sm">
+                            <li class="flex items-start"><i class="fas fa-check text-green-500 mr-2 mt-1"></i>对接甲方需求、拆解项目目标</li>
+                            <li class="flex items-start"><i class="fas fa-check text-green-500 mr-2 mt-1"></i>制定制作方案、把控项目进度与质量</li>
+                            <li class="flex items-start"><i class="fas fa-check text-green-500 mr-2 mt-1"></i>团队协作、需求沟通、版本迭代修改</li>
+                        </ul>
+                    </div>
+
+                    <div class="card-hover bg-gradient-to-br from-orange-50 to-yellow-50 rounded-2xl p-8 border border-orange-100 section-fade">
+                        <div class="w-14 h-14 bg-orange-100 rounded-xl flex items-center justify-center mb-6">
+                            <i class="fas fa-rocket text-2xl text-orange-600"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-dark mb-4">附加综合能力</h3>
+                        <ul class="space-y-2 text-gray-600 text-sm">
+                            <li class="flex items-start"><i class="fas fa-check text-orange-500 mr-2 mt-1"></i>熟悉影视镜头语言、光影美学</li>
+                            <li class="flex items-start"><i class="fas fa-check text-orange-500 mr-2 mt-1"></i>多风格视觉创作，驾驭写实、科技、潮流等</li>
+                            <li class="flex items-start"><i class="fas fa-check text-orange-500 mr-2 mt-1"></i>持续跟进AIGC新技术，快速学习创新</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="py-20 bg-gradient-to-br from-gray-50 via-white to-purple-50">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16 section-fade">
+                    <h2 class="text-3xl sm:text-4xl font-bold text-dark mb-4">个人优势与特点</h2>
+                    <p class="text-gray-600 max-w-2xl mx-auto">兼具传统影视功底与前沿AI技术的复合型视频设计师</p>
+                </div>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-5 gap-6 mb-16">
+                    <div class="card-hover bg-white rounded-xl p-6 text-center shadow-sm section-fade">
+                        <div class="w-12 h-12 gradient-bg rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-code-merge text-white"></i>
+                        </div>
+                        <h4 class="font-semibold text-dark mb-2">技术融合优势</h4>
+                        <p class="text-xs text-gray-600">传统广告+AI技术，兼顾质量与效率</p>
+                    </div>
+                    <div class="card-hover bg-white rounded-xl p-6 text-center shadow-sm section-fade">
+                        <div class="w-12 h-12 bg-indigo-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-layer-group text-white"></i>
+                        </div>
+                        <h4 class="font-semibold text-dark mb-2">全栈创作能力</h4>
+                        <p class="text-xs text-gray-600">独立完成需求到交付全流程</p>
+                    </div>
+                    <div class="card-hover bg-white rounded-xl p-6 text-center shadow-sm section-fade">
+                        <div class="w-12 h-12 bg-purple-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-brain text-white"></i>
+                        </div>
+                        <h4 class="font-semibold text-dark mb-2">商业思维敏锐</h4>
+                        <p class="text-xs text-gray-600">深谙品牌商业需求与传播逻辑</p>
+                    </div>
+                    <div class="card-hover bg-white rounded-xl p-6 text-center shadow-sm section-fade">
+                        <div class="w-12 h-12 bg-pink-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-bolt text-white"></i>
+                        </div>
+                        <h4 class="font-semibold text-dark mb-2">执行力强</h4>
+                        <p class="text-xs text-gray-600">严谨细致，高效完成紧急项目</p>
+                    </div>
+                    <div class="card-hover bg-white rounded-xl p-6 text-center shadow-sm section-fade">
+                        <div class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-arrow-up-circle text-white"></i>
+                        </div>
+                        <h4 class="font-semibold text-dark mb-2">持续创新</h4>
+                        <p class="text-xs text-gray-600">紧跟AIGC趋势，持续迭代升级</p>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl p-8 shadow-lg section-fade">
+                    <h3 class="text-xl font-bold text-dark mb-6">自我评价</h3>
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div>
+                            <p class="text-gray-600 leading-relaxed mb-4">
+                                本人拥有7年广告行业视觉与视频创作经验，是兼具传统影视功底与前沿AI技术的复合型视频设计师。从传统平面设计、商业广告剪辑，到自主深耕AIGC全流程视频创作，完成了系统化的技能升级。
+                            </p>
+                        </div>
+                        <div>
+                            <p class="text-gray-600 leading-relaxed mb-4">
+                                具备扎实的剧本创作、视觉设计、AI生成、后期精修、项目统筹能力，既能依托AI技术高效出片、降低制作成本，又能凭借多年行业经验把控商业作品质感与传播效果。
+                            </p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 leading-relaxed">
+                        工作中严谨负责、善于沟通、勇于创新，能够快速适配各类商业项目需求，独立完成全案落地，致力于用AI技术赋能品牌视觉与视频创作，为项目创造更高的商业价值。
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section id="education" class="py-20 bg-white">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16 section-fade">
+                    <h2 class="text-3xl sm:text-4xl font-bold text-dark mb-4">学习经历与技能提升</h2>
+                    <p class="text-gray-600 max-w-2xl mx-auto">系统化学习路径，持续提升专业能力</p>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="card-hover bg-gray-50 rounded-2xl p-8 section-fade">
+                        <div class="flex items-center mb-6">
+                            <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mr-4">
+                                <i class="fas fa-graduation-cap text-blue-600"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-dark">学历教育</h3>
+                                <p class="text-sm text-gray-500">2014年09月 - 2018年06月</p>
+                            </div>
+                        </div>
+                        <div class="border-l-4 border-blue-500 pl-4">
+                            <p class="font-semibold text-dark mb-2">合肥师范学院</p>
+                            <p class="text-gray-600">本科</p>
+                        </div>
+                    </div>
+
+                    <div class="card-hover bg-gradient-to-br from-indigo-50 to-purple-50 rounded-2xl p-8 section-fade">
+                        <div class="flex items-center mb-6">
+                            <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mr-4">
+                                <i class="fas fa-book-open text-purple-600"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-dark">自主技能深造</h3>
+                                <p class="text-sm text-gray-500">在职期间</p>
+                            </div>
+                        </div>
+                        <ul class="space-y-3 text-gray-600 text-sm">
+                            <li class="flex items-start"><i class="fas fa-check-circle text-purple-500 mr-2 mt-1"></i>系统化自学平面设计、商业视觉美学、影视镜头语言、剧本创作逻辑</li>
+                            <li class="flex items-start"><i class="fas fa-check-circle text-purple-500 mr-2 mt-1"></i>深耕AI视频创作领域，熟练掌握主流AIGC创作工具与视频制作流程</li>
+                            <li class="flex items-start"><i class="fas fa-check-circle text-purple-500 mr-2 mt-1"></i>攻克AI真人视频合成、AI动画渲染、智能画面修复、AI镜头运镜等核心技术</li>
+                            <li class="flex items-start"><i class="fas fa-check-circle text-purple-500 mr-2 mt-1"></i>实现从剧本策划、视觉出图、视频生成、后期精修到成片交付的全流程独立创作</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="py-20 bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16 section-fade">
+                    <h2 class="text-3xl sm:text-4xl font-bold text-white mb-4">联系方式</h2>
+                    <p class="text-gray-300 max-w-2xl mx-auto">期待与您合作，共同创造精彩的AI视频作品</p>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-8 mb-12">
+                    <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-8 text-center section-fade">
+                        <div class="w-14 h-14 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-phone text-white text-xl"></i>
+                        </div>
+                        <h4 class="font-semibold text-white mb-2">电话</h4>
+                        <p class="text-gray-300">待添加</p>
+                    </div>
+                    <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-8 text-center section-fade">
+                        <div class="w-14 h-14 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-envelope text-white text-xl"></i>
+                        </div>
+                        <h4 class="font-semibold text-white mb-2">邮箱</h4>
+                        <p class="text-gray-300">待添加</p>
+                    </div>
+                    <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-8 text-center section-fade">
+                        <div class="w-14 h-14 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-map-marker-alt text-white text-xl"></i>
+                        </div>
+                        <h4 class="font-semibold text-white mb-2">地址</h4>
+                        <p class="text-gray-300">待添加</p>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl p-8 lg:p-12 shadow-xl section-fade">
+                    <h3 class="text-xl font-bold text-dark mb-6">发送消息</h3>
+                    <form id="contact-form" class="space-y-6">
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">姓名</label>
+                                <input type="text" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary focus:border-transparent transition-all" placeholder="请输入您的姓名">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">邮箱</label>
+                                <input type="email" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary focus:border-transparent transition-all" placeholder="请输入您的邮箱">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">项目类型</label>
+                            <select class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary focus:border-transparent transition-all">
+                                <option>AI真人短剧</option>
+                                <option>AI动画短剧</option>
+                                <option>品牌TVC广告</option>
+                                <option>创意剧情广告</option>
+                                <option>其他</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">留言内容</label>
+                            <textarea rows="4" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary focus:border-transparent transition-all" placeholder="请描述您的项目需求..."></textarea>
+                        </div>
+                        <button type="submit" class="w-full py-3 gradient-bg text-white rounded-lg font-medium hover:opacity-90 transition-opacity">
+                            发送消息
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-dark text-gray-400 py-8">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row items-center justify-between">
+                <div class="mb-4 md:mb-0">
+                    <span class="text-white font-bold">孙冠雄</span>
+                    <span class="text-sm ml-2">AI视频设计师</span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="#" class="hover:text-white transition-colors"><i class="fab fa-weixin"></i></a>
+                    <a href="#" class="hover:text-white transition-colors"><i class="fab fa-weibo"></i></a>
+                    <a href="#" class="hover:text-white transition-colors"><i class="fab fa-bilibili"></i></a>
+                </div>
+                <div class="text-sm mt-4 md:mt-0">
+                    © 2024 孙冠雄. All rights reserved.
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <button id="back-to-top" class="fixed bottom-6 right-6 w-12 h-12 gradient-bg text-white rounded-full shadow-lg opacity-0 invisible transition-all duration-300 flex items-center justify-center hover:opacity-90">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const navbar = document.getElementById('navbar');
+            const menuBtn = document.getElementById('menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const backToTopBtn = document.getElementById('back-to-top');
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('section');
+            const sectionFades = document.querySelectorAll('.section-fade');
+
+            const canvas = document.getElementById('hero-canvas');
+            const ctx = canvas.getContext('2d');
+            let particles = [];
+
+            function resizeCanvas() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+
+            function createParticle() {
+                return {
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    size: Math.random() * 3 + 1,
+                    speedX: (Math.random() - 0.5) * 0.5,
+                    speedY: (Math.random() - 0.5) * 0.5,
+                    opacity: Math.random() * 0.5 + 0.1,
+                    color: ['#6366f1', '#8b5cf6', '#ec4899'][Math.floor(Math.random() * 3)]
+                };
+            }
+
+            function drawParticles() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                particles.forEach((p, index) => {
+                    p.x += p.speedX;
+                    p.y += p.speedY;
+
+                    if (p.x < 0 || p.x > canvas.width) p.speedX *= -1;
+                    if (p.y < 0 || p.y > canvas.height) p.speedY *= -1;
+
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                    ctx.fillStyle = p.color;
+                    ctx.globalAlpha = p.opacity;
+                    ctx.fill();
+                    ctx.globalAlpha = 1;
+
+                    particles.forEach((p2, index2) => {
+                        if (index !== index2) {
+                            const dx = p.x - p2.x;
+                            const dy = p.y - p2.y;
+                            const distance = Math.sqrt(dx * dx + dy * dy);
+
+                            if (distance < 120) {
+                                ctx.beginPath();
+                                ctx.moveTo(p.x, p.y);
+                                ctx.lineTo(p2.x, p2.y);
+                                ctx.strokeStyle = p.color;
+                                ctx.globalAlpha = (120 - distance) / 120 * 0.2;
+                                ctx.lineWidth = 0.5;
+                                ctx.stroke();
+                                ctx.globalAlpha = 1;
+                            }
+                        }
+                    });
+                });
+                requestAnimationFrame(drawParticles);
+            }
+
+            function initParticles() {
+                resizeCanvas();
+                particles = [];
+                for (let i = 0; i < 50; i++) {
+                    particles.push(createParticle());
+                }
+                drawParticles();
+            }
+
+            window.addEventListener('resize', resizeCanvas);
+            initParticles();
+
+            menuBtn.addEventListener('click', function() {
+                mobileMenu.classList.toggle('hidden');
+                const isExpanded = mobileMenu.classList.contains('hidden') ? 'false' : 'true';
+                menuBtn.setAttribute('aria-expanded', isExpanded);
+                menuBtn.innerHTML = mobileMenu.classList.contains('hidden') 
+                    ? '<i class="fas fa-bars text-gray-600"></i>' 
+                    : '<i class="fas fa-times text-gray-600"></i>';
+            });
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    mobileMenu.classList.add('hidden');
+                    menuBtn.setAttribute('aria-expanded', 'false');
+                    menuBtn.innerHTML = '<i class="fas fa-bars text-gray-600"></i>';
+                });
+            });
+
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('shadow-md');
+                    navbar.classList.remove('shadow-sm');
+                } else {
+                    navbar.classList.remove('shadow-md');
+                    navbar.classList.add('shadow-sm');
+                }
+
+                if (window.scrollY > 500) {
+                    backToTopBtn.classList.remove('opacity-0', 'invisible');
+                } else {
+                    backToTopBtn.classList.add('opacity-0', 'invisible');
+                }
+
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    if (window.scrollY >= sectionTop - 100) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('nav-active');
+                    if (link.getAttribute('href') === '#' + current) {
+                        link.classList.add('nav-active');
+                    }
+                });
+            });
+
+            backToTopBtn.addEventListener('click', function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+
+            sectionFades.forEach(fade => {
+                observer.observe(fade);
+            });
+
+            document.getElementById('contact-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('感谢您的留言！我会尽快与您联系。');
+                this.reset();
+            });
+        });
+    </script>
+</body>
+</html>
